@@ -20,6 +20,7 @@ declare -A OPTS=(
 }
 
 while read -r f; do
+  [[ -z "${f}" ]] && continue
   [[ ! -f "${f}" ]] && {
     echo "Listfile '${f}' file not found!" >&2
     continue
