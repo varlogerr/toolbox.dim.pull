@@ -34,9 +34,8 @@ while read -r f; do
   done < "${f}")"
 done <<< "${OPTS[listfiles]}"
 
-# for o in "${!OPTS[@]}"; do
-#   echo "${o} = ${OPTS[${o}]}"
-# done
+declare -a dl_tags_cmd=(curl -fksL)
+"${dl_tags_cmd[@]}" --version >/dev/null 2>&1 || dl_tags_cmd=(wget -qO -)
 
 while read -r img_name; do
   [[ -z "${img_name}" ]] && continue
@@ -48,9 +47,9 @@ while read -r img_name; do
   tags_url="${base_url}/${img_name}/tags?page_size=${OPTS[page_size]}"
 
   tags="$(
-    curl -s "${tags_url}" 2> /dev/null \
-    | grep -Po '"name"\s*:\s*"[^"]+"' \
-    | sed -E 's/.*:\s*"([^"]+)"$/\1/g'
+    "${dl_tags_cmd[@]}" "${tags_url}" 2>/dev/null \
+    | grep -o '"name"\s*:\s*"[^"]\+"' \
+    | sed 's/.*:\s*"\([^"]\+\)"$/\1/g'
   )"
 
   if [[ -z "${tags}" ]]; then

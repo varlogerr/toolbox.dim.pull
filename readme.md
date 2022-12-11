@@ -7,13 +7,9 @@ Pull latest or all (currently hardcoded to 40 latest) images of a docker reposit
 ```sh
 # clone the repository
 sudo git clone https://github.com/varlogerr/toolbox.dim.pull.git /opt/varlog/toolbox.dim.pull
-# check pathadd.append function is installed
-type -t pathadd.append
-# in case output is "function" you can make use
-# of pathadd-based bash hook. Otherwise add
-# '/opt/varlog/toolbox.dim.pull/bin' directory
+# add '/opt/varlog/toolbox.dim.pull/bin' directory
 # to the PATH manually
-echo '. /opt/varlog/toolbox.dim.pull/hook-pathadd.bash' >> ~/.bashrc
+echo '. /opt/varlog/toolbox.dim.pull/source.bash' >> ~/.bashrc
 # reload ~/.bashrc
 . ~/.bashrc
 # expore the script
@@ -23,7 +19,3 @@ dim.pull.sh -h
 crontab - <<< \
   "0 4 * * 1 dim.pull.sh -l 5 -r ubuntu"   
 ```
-
-## References
-
-* [`pathadd` tool](https://github.com/varlogerr/toolbox.pathadd)
